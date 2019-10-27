@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+ <title>Tabla de Doctores</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>  
+	<div class="container">
+  <h2>Tabla Doctores</h2><p><a class="btn btn-info btn-lg" th:href="@{/doctores/guardar}" role="button" id="nuevo" data-toggle="modal" data-target="#ModalCliente">Nuevo</a></p>            
+  <table class="table">
+     <thead class="thead-dark">
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Direccion</th>
+        <th>Telefono</th>
+        <th>Especialidad</th>
+        <th style="width:200px">Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+	<!-- Estructira repetitiva para recorrer el listado que viene en
+		variable 'items', esta el el foreach -->
+		<tr th:each="i:${items}">
+			<td th:text="${i.id_doctor}"></td>
+			<td th:text="${i.nombre}"></td>
+			<td th:text="${i.direccion}"></td>
+			<td th:text="${i.telefono}"></td>
+			<td th:text="${i.especialidad}"></td>
+
+			<td><a name="modificar" id="modificar" class="btn btn-info" th:href="@{'/doctores/modificar/' + ${i.id_doctor}}" role="button">Modificar</a>
+			    <a name="eliminar" id="eliminar" class="btn btn-danger" th:href="@{'/doctores/eliminar/' + ${i.id_doctor}}"  role="button">Eliminar</a></td>
+		</tr>
+		</tbody>
+  </table>
+  <!-- Modal para poder agregar un registro -->
+		<div class="modal fade" id="ModalCliente">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                
+                             <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Listado de clientes</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                       <form class="was-validated" action="/doctores/guardar"  method="post">
+					    <div class="form-group">
+					      <label for="uname">Nombre:</label>
+					      <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre" name="nombre" required>
+					      <div class="valid-feedback">Valido.</div>
+					      <div class="invalid-feedback">Ingrese datos.</div>
+					    </div>
+					     <div class="form-group">
+					      <label for="uname">Direccion:</label>
+					      <input type="text" class="form-control" id="direccion" placeholder="Ingrese su direccion" name="direccion" required>
+					      <div class="valid-feedback">Valido.</div>
+					      <div class="invalid-feedback">Ingrese datos.</div>
+					    </div>
+					    	   <div class="form-group">
+					      <label for="uname">Telefono:</label>
+					      <input type="Number" class="form-control" id="telefono" placeholder="Ingrese su Telefono" name="telefono" required>
+					      <div class="valid-feedback">Valido.</div>
+					      <div class="invalid-feedback">Ingrese datos.</div>
+					    </div>
+					    
+					       <div class="form-group">
+					      <label for="uname">Especialidad:</label>
+					      <input type="text" class="form-control" id="especialidad" placeholder="Ingrese su especialidad" name="especialidad" required>
+					        <div class="valid-feedback">Valido.</div>
+					      <div class="invalid-feedback">Ingrese datos.</div>
+					    </div>
+			    
+					      <button  type="submit" class="btn btn-outline-success" id="aceptar">Guardar</button>
+		                <a class="btn btn-outline-danger" th:href="@{/doctores/listar}" role="button" id="cancelar">Cancelar</a>
+                       </form>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                    </div>
+                
+           </div>
+		</div>
+		</div>
+</div>
+</body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(inicio);
+		
+		function inicio()
+	
+    </script>
+</html>

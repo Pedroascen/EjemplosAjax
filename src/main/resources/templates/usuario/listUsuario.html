@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+  <title>Tabla de Usuario</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+		<!----------------------------------- Modal para poder agregar un registro ------------------------------------>
+		<div class="modal fade" id="ModalUsuario">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                
+                             <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Listado de usuarios</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                    	  <div class="form-group">
+					      <label for="id">Id:</label>
+					      <input readonly="readonly" type="text" class="form-control" id="id" placeholder="Id es auto-incrementable" name="eid" required>
+					    </div>
+					    <div class="form-group">
+					      <label for="nombre">Nombre:</label>
+					      <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre" name="nombre" required>
+					 
+					    </div>
+					     <div class="form-group">
+					      <label for="direccion">Direccion:</label>
+					      <input type="text" class="form-control" id="direccion" placeholder="Ingrese su direccion" name="direccion" required>
+					     
+					    </div>
+					    	   <div class="form-group">
+					      <label for="telefono">Telefono:</label>
+					      <input type="Number" class="form-control" id="telefono" placeholder="Ingrese su Telefono" name="telefono" required>
+					    </div>
+					    
+					     
+			    
+					      <button  type="submit" class="btn btn-success" id="guardar" data-dismiss="modal">Guardar</button>
+		                  <button class="btn btn-danger" role="button" id="cancelar" data-dismiss="modal">Cancelar</button>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                    </div>
+                
+           </div>
+		</div>
+		</div>
+	
+		<!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
+		
+			  <!-- Modal para poder modificar un registro -->
+		<div class="modal fade" id="ModifUsuario">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                
+                             <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modificar usuarios</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                    	  <div class="form-group">
+					      <label for="id">Id:</label>
+					      <input readonly="readonly" type="text" class="form-control" id="id1" placeholder="Id es auto-incrementable" name="eid" required>
+					    </div>
+					    <div class="form-group">
+					      <label for="nombre">Nombre:</label>
+					      <input type="text" class="form-control" id="nombre1" placeholder="Ingrese su nombre" name="nombre" required>
+					 
+					    </div>
+					     <div class="form-group">
+					      <label for="direccion">Direccion:</label>
+					      <input type="text" class="form-control" id="direccion1" placeholder="Ingrese su direccion" name="direccion" required>
+					     
+					    </div>
+					    	   <div class="form-group">
+					      <label for="telefono">Telefono:</label>
+					      <input type="Number" class="form-control" id="telefono1" placeholder="Ingrese su Telefono" name="telefono" required>
+					    </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+					      <button  type="submit" class="btn btn-success" id="modificar" data-dismiss="modal">Modificar</button>
+		                  <button class="btn btn-danger" role="button" id="cancelar" data-dismiss="modal">Cancelar</button>
+                    </div>
+                
+           </div>
+		</div>
+		</div>
+		
+		<!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
+		
+				<!-- Modal para poder eliminar un registro -->
+		<div class="modal fade" id="ElimiUsuario" style="text-aling:center;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                
+                             <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">¿Está seguro de eliminar este registro?</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                   <!-- Modal footer -->
+                    <div class="modal-footer">	    
+					    <button  type="submit" class="btn btn-danger" id="eliminar" data-dismiss="modal">Si</button>
+		                <button class="btn btn-success" role="button" id="cancelar" data-dismiss="modal">No</button>
+                    </div>
+                    </div>
+                
+           </div>
+		</div>
+				<!-- ---------------------------------------------------------------------------------------------------------------------------------------- -->
+		
+			<div class="container">
+			  <h2>Tabla Usuarios</h2><p><button class="btn btn-info btn-lg" role="button" id="nuevo" data-toggle="modal" data-target="#ModalUsuario">Nuevo</button></p> <!-- Boton para ingresar nuevo registro -->           
+			  <table class="table">
+			     <thead class="thead-dark">
+						<tr>
+							<th>Id</th>
+							<th>Nombre</th>
+							<th>Direccion</th>
+							<th>Telefono</th>
+							<th style="width:200px">Opciones</th>
+						</tr>
+					</thead>
+				    <tbody id="tdatos">
+				  </tbody>
+				</table>
+			</div>
+				
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	     <script>
+	     
+	     let usuario={id:0};
+	     
+	     function setIdUsuario(id){
+	    	 usuario.id=id;
+	    	 //alert("id: "+usuario.id);
+	     }
+	     //prepara las funciones para la pagina cargarda completamente
+	     $(document).ready(inicio);
+		//implementacion de las funciones declaradas
+	 	function inicio(){
+	 		cargarDatos();
+	 		$("#guardar").click(guardar);
+	 		$("#eliminar").click(function(){
+	 			eliminar(usuario.id);
+	 		});
+	 		$("#modificar").click(modificar);
+	 	}
+	 	
+	 	//reset es para limpiar los modal's
+	 	function reset(){
+	 		$("#id").val(null);
+	 		$("#nombre").val(null);
+	 		$("#direccion").val(null);
+	 		$("#telefono").val(null);
+	 		//reseteo para modal modificar
+	 		$("#id1").val(null);
+	 		$("#nombre1").val(null);
+	 		$("#direccion1").val(null);
+	 		$("#telefono1").val(null);
+	 	}
+	 	
+	   //Metodo peticionn con ajax
+	 	function cargarDatos(){
+	 		//peticion al Back-end
+	 		$.ajax({
+	 			url:"/usuarios/valores",
+	 			method:"Get",
+	 			success:function(response){//data no se necesitara porque el controller no lo necesita
+	 				//Se imprimen los valores en la tabla
+	 			        $("#tdatos").html("")//resetear los datos de la tabla
+	 					for (let i=0; i < response.length; i++ ){
+	 			        $("#tdatos").append(""
+	 							+"<tr>"
+	 							+"<td>"+response[i].id+"</td>"
+	 							+"<td>"+response[i].nombre+"</td>"
+	 							+"<td>"+response[i].direccion+"</td>"
+	 							+"<td>"+response[i].telefono+"</td>"
+	 							+"<td>"
+	 							+"<button onclick='cargarRegistro("+response[i].id+");' type='button' class='btn btn-success mr-2' data-toggle='modal' data-target='#ModifUsuario'>Editar</button>"
+	 							+"<button onclick='setIdUsuario("+response[i].id+");' type='button' class='btn btn-danger' data-toggle='modal' data-target='#ElimiUsuario'>Eliminar</button>"
+	 							+"</td>"
+	 							+"</tr>");
+	 					}
+	 			},
+	 			error:function(response){
+	 				alert("Error en la peticion"+response);
+	 			}
+	 		});
+	 	}
+	   
+	   //Metodo para guardar
+	   function guardar(){
+		   $.ajax({
+			   url:"/usuarios/guardarMod",
+			   method:"Post",
+			   data:{
+				   id:null,//Null auto-incrementable
+				   nombre:$("#nombre").val(),
+		           direccion:$("#direccion").val(),
+		           telefono:$("#telefono").val()
+			   },
+			   success:function(response){
+				   //alert("Registro Guardado.");
+				   reset();
+				   cargarDatos();
+			   },
+			   error:function(response){
+	 				alert("Error en la peticion"+response);
+	 			}
+		   });
+	   }
+	   
+	   //Metodo para eliminar
+	   function eliminar(id){
+		   $.ajax({
+			   url:"/usuarios/eliminar/"+id,
+			   method:"Get",
+			   success:function(response){
+				   //alert("Elimino un registro.");
+				   cargarDatos();
+			   },
+			   error:function(response){
+	 				alert("Error en la peticion"+response);
+	 			}
+		   });
+	   }
+	  //Metodo para cargar los datos en el modal de editar
+	  function cargarRegistro(id){
+		  $.ajax({
+			  url:"/usuarios/editar/"+id,
+			  method:"Get",
+			  success:function(response){
+				  $("#id1").val(response.id);
+				  $("#nombre1").val(response.nombre);
+				  $("#direccion1").val(response.direccion);
+				  $("#telefono1").val(response.telefono);
+			  },
+			  error:function(response){
+	 				alert("Error en la peticion"+response);
+	 			}
+		  });
+	  }
+	  //Metodo para editar
+	  function modificar(){
+		  $.ajax({
+			  url:"/usuarios/guardarMod",
+			  method:"Post",
+			  data:{
+				  id:$("#id1").val(),
+				  nombre:$("#nombre1").val(),
+				  direccion:$("#direccion1").val(),
+				  telefono:$("#telefono1").val()
+			  },
+			  success:function(response){
+				  //alert("Se ha Modicado: "+response);
+				  reset();
+				  cargarDatos();
+			  },
+			  error:function(response){
+                  alert("Error en la peticion "+response);
+              }
+		 });
+	  }
+	     </script>
+</body>
+</html>
